@@ -1,0 +1,23 @@
+{
+  "name": "code",
+  "version": "1.0.0",
+  "description": "This is the code project used in conjunction with the Container-First Development presentation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eichelkrauta/container-first-development.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eichelkrauta/container-first-development/issues"
+  },
+  "homepage": "https://github.com/eichelkrauta/container-first-development#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

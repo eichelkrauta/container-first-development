@@ -99,7 +99,81 @@ tasks:
       container: build-env
       command: sh
 ```
+- Add this to the configuration of the container:
+```
+containers:
+  build-env:
+    run_as_current_user:
+      enabled: true
+      home_directory: /home/container-user
+```
+> This prevents the `package-lock.json` from being owned by the root user of the container,
+> which will allow us to modify it in later parts of the presentation.
+
 - Shell into the container and run `npm init -y`
 > Note: the listener could have easily created a task for this in batect, but I wanted to
 > highlight the fact that sometimes, it's nice to snoop around and do manual tasks within
 > the container itself; whether for debugging or for one-off tasks.
+
+## 06
+- Refactor `index.js` as an express app that shows a page 'Hello World!'
+```
+const express = require('express')
+const app = express()
+const port = 3000
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})
+```
+
+- Run `./batect hello` and show that nodejs is confused about missing dependencies
+
+- Add `express` as a package for the app:
+```
+npm install --package-lock-only express --save
+```
+
+- Add `enable_init_process` to the container configuration to workaround the inability of SIGINT
+```
+containers:
+  build-env:
+    enable_init_process: true
+```
+
+- We could run `npm install` if we wanted, or we can add it as a prerequisite task 
+to be run before `hello`
+```
+tasks:
+  install:
+    description: Installs development dependencies to the dev container
+    run:
+      container: build-env
+      command: npm install
+```
+```
+tasks:
+  ...
+  hello:
+    prerequisites:
+      - install
+```
+
+- Attempt to visit `localhost:3000` and show that no response is happening
+
+- Add the port mapping from the container to host
+```
+tasks:
+  ...
+  hello:
+    run:
+      ports:
+        - local: 3000
+          container: 3000
+```
+
+- Visit the `localhost:3000` site now and see that it shows Hello World!
