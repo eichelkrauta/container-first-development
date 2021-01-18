@@ -1,5 +1,8 @@
 containers:
   build-env:
+    run_as_current_user:
+      enabled: true
+      home_directory: /home/container-user
     build_directory: .
     working_directory: /code
     volumes:
@@ -12,3 +15,8 @@ tasks:
     run:
       container: build-env
       command: node index.js
+  shell:
+    description: Shells into the development container
+    run:
+      container: build-env
+      command: sh

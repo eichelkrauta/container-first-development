@@ -87,3 +87,19 @@ tasks:
       container: build-env
       command: node index.js
 ```
+- Run the `./batect hello` and show that 'Hello World!' is still printed on the commandline
+
+## 05
+- Create a `shell` command in the `batect.yml` to allow us to shell into the container
+```
+tasks:
+  shell:
+    description: Shells into the development container
+    run:
+      container: build-env
+      command: sh
+```
+- Shell into the container and run `npm init -y`
+> Note: the listener could have easily created a task for this in batect, but I wanted to
+> highlight the fact that sometimes, it's nice to snoop around and do manual tasks within
+> the container itself; whether for debugging or for one-off tasks.
