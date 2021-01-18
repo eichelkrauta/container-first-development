@@ -68,4 +68,22 @@ tasks:
 
 - Change the `hello` task to use `node /code/index.js` to run the command natively from `batect`.
 
+## 04
+- Refactor the `Dockerfile` to remove the `index.js` and `WORKDIR`
+- Use `batect` to create a volume mount
+```
+containers:
+  build-env:
+    build_directory: .
+    working_directory: /code
+    volumes:
+      - container: /code
+        local: .
 
+tasks:
+  hello:
+    description: Runs the 'Hello World' node program
+    run:
+      container: build-env
+      command: node index.js
+```

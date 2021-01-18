@@ -1,10 +1,14 @@
 containers:
   build-env:
     build_directory: .
+    working_directory: /code
+    volumes:
+      - container: /code
+        local: .
 
 tasks:
   hello:
     description: Runs the 'Hello World' node program
     run:
       container: build-env
-      command: node /code/index.js
+      command: node index.js
