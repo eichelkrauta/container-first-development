@@ -1,0 +1,10 @@
+containers:
+  build-env:
+    build_directory: .
+
+tasks:
+  hello:
+    description: Runs the 'Hello World' node program
+    run:
+      container: build-env
+      command: node /code/index.js
